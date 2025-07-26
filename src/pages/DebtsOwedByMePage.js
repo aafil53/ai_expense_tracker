@@ -174,18 +174,24 @@ const DebtsOwedByMePage = ({user}) => {
         {debts.length === 0 && <p>No debts recorded.</p>}
         {debts.map(debt => (
           <li key={debt.id} className="border p-3 mb-2 rounded">
-            <div><strong>Amount:</strong> ₹{debt.amount}</div>
+            <div className="flex items-center gap-2 mb-2">
+              <div><strong>Amount:</strong> ₹{debt.amount}</div>
+              {debt.status === 'Paid' ? (
+                <span className="ml-2 px-2 py-0.5 rounded bg-green-100 text-green-700 text-xs font-semibold">✔️ Paid</span>
+              ) : (
+                <span className="ml-2 px-2 py-0.5 rounded bg-yellow-100 text-yellow-700 text-xs font-semibold">Pending</span>
+              )}
+            </div>
             <div><strong>Debtor:</strong> {debt.debtorName}</div>
             <div><strong>Due Date:</strong> {debt.dueDate}</div>
             {debt.note && <div><strong>Note:</strong> {debt.note}</div>}
-            <div><strong>Status:</strong> {debt.status || 'Unpaid'}</div>
             <div className="flex gap-2 mt-1">
               {debt.status !== 'Paid' && (
                 <button
                   onClick={() => markAsPaid(debt.id)}
-                  className="bg-green-500 text-white p-1 rounded text-sm flex-1"
+                  className="bg-green-500 hover:bg-green-600 text-white p-1 rounded text-sm flex-1 flex items-center justify-center gap-1"
                 >
-                  Mark as Paid
+                  <span role="img" aria-label="paid">✔️</span> Mark as Paid
                 </button>
               )}
               <button

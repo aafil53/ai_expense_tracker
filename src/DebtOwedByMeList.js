@@ -59,17 +59,23 @@ const DebtOwedByMeList = ({user}) => {
         {debts.length === 0 && <p className='text-gray-500'>No debts found.</p>}
         {debts.map(debt => (
           <div key={debt.id} className='border p-2 mb-2 rounded'>
-            <p><strong>Lender:</strong> {debt.lender}</p>
+            <div className="flex items-center gap-2 mb-2">
+              <p><strong>Lender:</strong> {debt.lender}</p>
+              {debt.status === 'Paid' ? (
+                <span className="ml-2 px-2 py-0.5 rounded bg-green-100 text-green-700 text-xs font-semibold">✔️ Paid</span>
+              ) : (
+                <span className="ml-2 px-2 py-0.5 rounded bg-yellow-100 text-yellow-700 text-xs font-semibold">Pending</span>
+              )}
+            </div>
             <p><strong>Amount:</strong> ₹{debt.amount}</p>
             <p><strong>Due Date:</strong> {debt.dueDate}</p>
             {debt.note && <p><strong>Note:</strong> {debt.note}</p>}
-            <p><strong>Status:</strong> {debt.status ?? 'Unpaid'}</p>
             {(!debt.status || debt.status.toLowerCase() !== 'paid') && (
               <button
                 onClick={() => markAsPaid(debt.id)}
-                className='bg-green-500 text-white px-2 py-1 rounded mr-2 mt-1'
+                className='bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded mr-2 mt-1 flex items-center gap-1'
               >
-                Mark as Paid
+                <span role="img" aria-label="paid">✔️</span> Mark as Paid
               </button>
             )}
             <button

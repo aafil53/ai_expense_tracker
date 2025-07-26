@@ -145,15 +145,21 @@ const DebtsOwedToMePage = ({user}) => {
               </>
             ) : (
               <>
-                <div><strong>Amount:</strong> ₹{debt.amount}</div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div><strong>Amount:</strong> ₹{debt.amount}</div>
+                  {debt.status === 'cleared' ? (
+                    <span className="ml-2 px-2 py-0.5 rounded bg-green-100 text-green-700 text-xs font-semibold">✔️ Cleared</span>
+                  ) : (
+                    <span className="ml-2 px-2 py-0.5 rounded bg-yellow-100 text-yellow-700 text-xs font-semibold">Pending</span>
+                  )}
+                </div>
                 <div><strong>Debtor:</strong> {debt.debtorName || 'Unknown'}</div>
                 <div><strong>Due Date:</strong> {debt.dueDate || 'N/A'}</div>
                 {debt.note && <div><strong>Note:</strong> {debt.note}</div>}
-                <div><strong>Status:</strong> {debt.status || 'pending'}</div>
                 <div className="flex gap-2 mt-1">
                   {debt.status !== 'cleared' && (
-                    <button onClick={() => markAsCleared(debt.id)} className="bg-green-500 text-white p-1 rounded text-sm flex-1">
-                      Mark as Cleared
+                    <button onClick={() => markAsCleared(debt.id)} className="bg-green-500 hover:bg-green-600 text-white p-1 rounded text-sm flex-1 flex items-center justify-center gap-1">
+                      <span role="img" aria-label="cleared">✔️</span> Mark as Cleared
                     </button>
                   )}
                   <button onClick={() => startEditing(debt)} className="bg-blue-500 text-white p-1 rounded text-sm flex-1">Edit</button>
